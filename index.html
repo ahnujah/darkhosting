@@ -1,151 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Darkhosting</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: #444;
-            padding: 10px 0;
-        }
-        nav a {
-            color: #fff;
-            margin: 0 15px;
-            text-decoration: none;
-        }
-        .container {
-            padding: 20px;
-        }
-        .section {
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        footer {
-            text-align: center;
-            padding: 10px 0;
-            background-color: #333;
-            color: #fff;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>Welcome to Darkhosting</h1>
-</header>
-
-<nav>
-    <a href="#home">Home</a>
-    <a href="#vps">VPS Plan</a>
-    <a href="#domain">Domain Plan</a>
-    <a href="#minecraft">Minecraft Plan</a>
-    <a href="#website">Website Plan</a>
-    <a href="#webdev">Website Developer</a>
-    <a href="#mcdev">Minecraft Developer</a>
-</nav>
-
+{% extends "layout.html" %}
+{% block content %}
 <div class="container">
-    <div id="home" class="section">
-        <h2>Home</h2>
-        <p>Welcome to Darkhosting, your one-stop solution for hosting and development needs.</p>
-    </div>
-
-    <div id="vps" class="section">
-        <h2>VPS Plan</h2>
-        <p>Explore our VPS plans to find the perfect solution for your hosting needs.</p>
-        <button onclick="purchase('VPS Plan', 10.00)">Add to Cart - $10.00</button>
-    </div>
-
-    <div id="domain" class="section">
-        <h2>Domain Plan</h2>
-        <p>Register your domain with Darkhosting and enjoy seamless services.</p>
-        <button onclick="purchase('Domain Plan', 5.00)">Add to Cart - $5.00</button>
-    </div>
-
-    <div id="minecraft" class="section">
-        <h2>Minecraft Plan</h2>
-        <p>Get the best Minecraft hosting plans with Darkhosting.</p>
-        <button onclick="purchase('Minecraft Plan', 15.00)">Add to Cart - $15.00</button>
-    </div>
-
-    <div id="website" class="section">
-        <h2>Website Plan</h2>
-        <p>Discover our website hosting plans tailored to your needs.</p>
-        <button onclick="purchase('Website Plan', 20.00)">Add to Cart - $20.00</button>
-    </div>
-
-    <div id="webdev" class="section">
-        <h2>Website Developer</h2>
-        <p>Need help with your website? Our developers are here to assist you.</p>
-    </div>
-
-    <div id="mcdev" class="section">
-        <h2>Minecraft Developer</h2>
-        <p>Looking for a Minecraft developer? We've got you covered.</p>
-    </div>
+   <div class="row">
+      <div class="col-lg-3 col-12 sidebar">
+         {% include "header_2.html" %}
+         {{ modules|raw }}
+      </div>
+      <div class="col-lg-9 col-12 mainbar index mt-lg-0 mt-2">
+         <div class="desc position-relative p-4 mb-2">
+            <div class="store-name mb-3">
+               <span>Welcome to the official</span>
+               <h1>{{store.name}}</h1>
+            </div>
+            {{ index.description|raw }}
+         </div>
+         <div class="support p-4 mb-2">
+            <h4 class="mb-2"><i class="fa-solid fa-life-ring me-1"></i>Help & Support</h4>
+            <p>We have an active and passionate Staff Team which is always happy to help you or answer your questions!</p>
+            <p>The quickest way to ask questions or seek help with minor issues is to <b>join our Discord Server.</b></p>
+            <a class="btn btn-discord drop-shadow" href="{{discordLink}}" target="_blank"><i class="fa-brands fa-discord me-1"></i>Discord server</a>
+         </div>
+         <div class="policy mx-0">
+            <div class="p-4 refund-policy">
+               <div class="mb-3">
+                  <h4 class="mb-2"><i class="fa-solid fa-triangle-exclamation me-1"></i>Refund Policy</h4>
+                  <p>All payments are <b>final</b> and <b>non-refundable</b>. Attempting a chargeback or opening a PayPal dispute will result in <b>permanent</b> and <b>irreversible banishment</b> from all of our servers, and other stores.</p>
+               </div>
+               <a class="btn toggle-modal w-100 drop-shadow" href="javascript:void(0);" data-remote="/terms"><i class="fa-solid fa-square-arrow-up-right me-1"></i>Terms & Conditions</a>
+            </div>
+            <div class="p-4 privacy-policy">
+               <div class="mb-3">
+                  <h4 class="mb-2"><i class="fa-solid fa-user-shield me-1"></i>Privacy Policy</h4>
+                  <p>All information that is required on this webstore is <b>not shared</b> with any other third parties and is stored <b>securely</b>. All payments are processed via SSL enabled gateways and ensure that your payment details are secure.</p>
+               </div>
+               <a class="btn toggle-modal w-100 drop-shadow" href="javascript:void(0);" data-remote="/tebex-privacy"><i class="fa-solid fa-square-arrow-up-right me-1"></i>Privacy Policy</a>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
-
-<footer>
-    &copy; 2024 Darkhosting. All rights reserved.
-</footer>
-
-<!-- Load Stripe.js -->
-<script src="https://js.stripe.com/v3/"></script>
-<script>
-    // Initialize Stripe
-    var stripe = Stripe('your-publishable-key-here');
-
-    function purchase(item, amount) {
-        // Create a checkout session
-        fetch('/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                item: item,
-                amount: amount,
-            }),
-        })
-        .then(response => response.json())
-        .then(session => {
-            // Redirect to Stripe Checkout
-            return stripe.redirectToCheckout({ sessionId: session.id });
-        })
-        .then(result => {
-            if (result.error) {
-                alert(result.error.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-</script>
-
-</body>
-</html>
+{% include "content_footer.html" %}
+{% endblock %}
