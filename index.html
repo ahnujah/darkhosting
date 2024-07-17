@@ -47,6 +47,9 @@
             width: 100%;
             bottom: 0;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -74,29 +77,25 @@
     <div id="vps" class="section">
         <h2>VPS Plan</h2>
         <p>Explore our VPS plans to find the perfect solution for your hosting needs.</p>
-        <button>Add to Cart</button>
-        <button>Purchase</button>
+        <button onclick="purchase('VPS Plan', 10.00)">Add to Cart - $10.00</button>
     </div>
 
     <div id="domain" class="section">
         <h2>Domain Plan</h2>
         <p>Register your domain with Darkhosting and enjoy seamless services.</p>
-        <button>Add to Cart</button>
-        <button>Purchase</button>
+        <button onclick="purchase('Domain Plan', 5.00)">Add to Cart - $5.00</button>
     </div>
 
     <div id="minecraft" class="section">
         <h2>Minecraft Plan</h2>
         <p>Get the best Minecraft hosting plans with Darkhosting.</p>
-        <button>Add to Cart</button>
-        <button>Purchase</button>
+        <button onclick="purchase('Minecraft Plan', 15.00)">Add to Cart - $15.00</button>
     </div>
 
     <div id="website" class="section">
         <h2>Website Plan</h2>
         <p>Discover our website hosting plans tailored to your needs.</p>
-        <button>Add to Cart</button>
-        <button>Purchase</button>
+        <button onclick="purchase('Website Plan', 20.00)">Add to Cart - $20.00</button>
     </div>
 
     <div id="webdev" class="section">
@@ -113,6 +112,40 @@
 <footer>
     &copy; 2024 Darkhosting. All rights reserved.
 </footer>
+
+<!-- Load Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    // Initialize Stripe
+    var stripe = Stripe('your-publishable-key-here');
+
+    function purchase(item, amount) {
+        // Create a checkout session
+        fetch('/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                item: item,
+                amount: amount,
+            }),
+        })
+        .then(response => response.json())
+        .then(session => {
+            // Redirect to Stripe Checkout
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(result => {
+            if (result.error) {
+                alert(result.error.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
 
 </body>
 </html>
